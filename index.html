@@ -1,47 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    
-</body>
-<script>
-
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body></body>
+  <script>
     // variables that hold html script
-    const parent = document.createElement('section');
-    const title = document.createElement('h1');
-    title.innerText = 'Acme Employees DOM'
-    const p = document.createElement('p');
-    p.innerHTML = 'Choose your three favorites employees.';
-    const section = document.createElement('section');
-    const div = document.createElement('div');
-
-    const p_inside_dive = document.createElement('p')
-
-
-
-
+    const parent = document.createElement("section");
+    const title = document.createElement("h1");
+    title.innerText = "Acme Employees DOM";
+    const p = document.createElement("p");
+    p.innerHTML = "Choose your three favorites employees.";
+    const ul = document.createElement("ul");
+    const p_inside_dive = document.createElement("p");
     // lets build the tree
     const employees = [
-    { id: 1, name: 'moe'},
-    { id: 2, name: 'larry'},
-    { id: 4, name: 'shep'},
-    { id: 3, name: 'curly'},
-    { id: 5, name: 'groucho'},
-    { id: 6, name: 'harpo'},
-    { id: 8, name: 'shep Jr.'},
-    { id: 99, name: 'lucy'}
-  ];
-    const body = document.querySelector('body');
+      { id: 1, name: "moe" },
+      { id: 2, name: "larry" },
+      { id: 4, name: "shep" },
+      { id: 3, name: "curly" },
+      { id: 5, name: "groucho" },
+      { id: 6, name: "harpo" },
+      { id: 8, name: "shep Jr." },
+      { id: 99, name: "lucy" }
+    ];
+    const body = document.querySelector("body");
     body.appendChild(parent);
-    const body_section = document.querySelector('section');
+    const body_section = document.querySelector("section");
     body_section.appendChild(title);
     body_section.appendChild(p);
-    body_section.appendChild(section).appendChild(div).appendChild(p_inside_dive)       
-</script>
+    let bodyOfUl = body_section.appendChild(ul);
+    employees.forEach((el, i) => {
+      const li = document.createElement("li");
+      bodyOfUl.appendChild(li).setAttribute("data-id", el.id);
+      bodyOfUl.appendChild(li).innerText = `${el.name}`;
+    });
+
+    function clickButtons() {
+      const ids = [];
+      const buttons = document.querySelectorAll("ul > li");
+      console.dir(buttons);
+      buttons.forEach(el => {
+        el.addEventListener("click", function(ev) {
+          if (ev.target.classList[0] === undefined) {
+            ids.push(ev.target.attributes[0].value);
+            ev.target.classList.add("newbg");
+            if (ids.length > 3) {
+            alert("there is a max of 3 favorites, sorry");
+            ev.target.classList.remove("newbg");
+            ids.pop(ev.target.attributes[0].value);
+          }
+          } else {
+            ev.target.classList.remove("newbg");
+            ids.pop(ev.target.attributes[0].value);
+          }
+
+        });
+      });
+    }
+    clickButtons();
+  </script>
 </html>
